@@ -64,6 +64,10 @@ public class GeneBankCreateBTree
 								//removes numbers and 'n's from it hopefully. kinda annoying but idk it works
 								if(line.charAt(i)!='g' && line.charAt(i)!='a' && line.charAt(i)!='c' && line.charAt(i)!='t')
 									continue;
+								if(line.charAt(i)!='G' && line.charAt(i)!='A' && line.charAt(i)!='C' && line.charAt(i)!='T')
+									continue;
+
+
 
 								else 						//if a or g or c or t, adds to str
 									str=str+line.charAt(i);
