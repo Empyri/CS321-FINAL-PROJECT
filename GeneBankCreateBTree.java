@@ -10,12 +10,52 @@ public class GeneBankCreateBTree
 //open file and read only atgc characters after origin before // line
 	public static void main(String args[])
 	{
-		try
+
+		int k=Integer.parseInt(args[1]);
+		String str=getFullString(args);
+		String strArr[]=getCutStrings(str, k);
+
+	}
+
+	public static String [] getCutStrings(String str, int k)
+	{
+				//reads second argument as length, saved as int k
+		try{
+			String [] cutStrings=new String[str.length()-k];
+			File outputFile=new File("testOutput");			//creates testoutput file, unused as of 12/1
+			if(outputFile.createNewFile())
+			{
+				System.out.println("File Created: "+outputFile.getName());
+			}
+			else
+			{
+				System.out.println("File already exists.");
+			}
+			FileWriter myWriter=new FileWriter("testOutput.txt");
+			for(int i=0;i<str.length()-k;i++)
+			{
+				cutStrings[i]=str.substring(i,i+k);
+				myWriter.write(str.substring(i,i+k)+"\n");;
+			}
+			myWriter.close();
+			System.out.println("finished writing to testOutput.txt");
+			return cutStrings;
+		} catch (IOException e){
+			System.out.println("An error occured creating an output file.");
+			e.printStackTrace();
+		}
+		String[]failure=new String[1];
+		failure[0]="";
+		return failure;
+	}
+
+	public static String getFullString(String args[])
+	{
+			try
 		{
 
 			String str;		//final string with only actg in it
 			str="";
-			int k=Integer.parseInt(args[1]);
 
 			try (Scanner sc=new Scanner(new File(args[0]))) 	//read first argument as file name
 			{
@@ -66,39 +106,14 @@ public class GeneBankCreateBTree
 			{
 				System.out.println("Failed to read file "+args[0]);
 			}
-				//reads second argument as length, saved as int k
-			try{
-				File outputFile=new File("testOutput");			//creates testoutput file, unused as of 12/1
-				if(outputFile.createNewFile())
-				{
-					System.out.println("File Created: "+outputFile.getName());
-				}
-				else
-				{
-					System.out.println("File already exists.");
-				}
-				FileWriter myWriter=new FileWriter("testOutput.txt");
-
-				for(int i=0;i<str.length()-k;i++)
-				{
-					myWriter.write(str.substring(i,i+k)+"\n");;
-				}
-				myWriter.close();
-				System.out.println("finished writing to testOutput.txt");
-			} catch (IOException e){
-				System.out.println("An error occured creating an output file.");
-				e.printStackTrace();
-			}	
-
+			return str;
 		}catch(Exception e){
 			System.out.println("Input in style java GeneBankCreateBTree [inputfile] [length]");
 		}
-
+		return "";
 	}
 }
-
-
-
+ 
 
 
 
