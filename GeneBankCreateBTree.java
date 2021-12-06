@@ -21,7 +21,8 @@ public class GeneBankCreateBTree
 		String strArr[]=getCutStrings(str, k);		//cuts the previous string into k sized chunks
 		long intArr[]=getLongInts(strArr, k);		//converts the previous string into binary, then long int based off that
 
-
+		//QueryGenerator qG=new QueryGenerator();
+		//strArr=qG.generateQuery(k);				//these are used for searching later ignore for now
 
 	}
 
