@@ -76,7 +76,7 @@ public class GeneBankCreateBTree
 				//reads second argument as length, saved as int k
 		try{
 			String [] cutStrings=new String[str.length()-k];
-			File outputFile=new File("testOutput");			//creates testoutput file, unused as of 12/1
+			File outputFile=new File("testOutput.txt");			//creates testoutput file, unused as of 12/1
 			if(outputFile.createNewFile())
 			{
 				System.out.println("File Created: "+outputFile.getName());
