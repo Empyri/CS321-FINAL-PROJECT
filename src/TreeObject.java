@@ -9,6 +9,7 @@ import com.sun.source.tree.Tree;
  */
 public class TreeObject<T extends Comparable<T>>{
   private T key;
+  private T value;
   private int frequencycount; //it looks like we need to track frequency of objects so perhaps it is best that It is done here?
 
 
@@ -17,9 +18,8 @@ public class TreeObject<T extends Comparable<T>>{
      * It is considered new so it starts with a frequency of 0 as it has never been encountered/seen.
      * @param Key The object contained in the TreeObject.
      */
-  public TreeObject(T Key) {
-      this.key = Key;
-      frequencycount = 0; //Always starts with a frequency of zero
+  public TreeObject(T Key, T value) {
+      this(Key,value,0);
   }
 
     /**
@@ -27,8 +27,9 @@ public class TreeObject<T extends Comparable<T>>{
      * @param item The object stored in the the tree object
      * @param freq the frequency this object has been encountered.
      */
-  public TreeObject(T item, int freq) { //this is in case an object needs to be deleted and an identical copy needs to be inserted, I am not sure if this is needed yet
+  public TreeObject(T item, T value, int freq) { //this is in case an object needs to be deleted and an identical copy needs to be inserted, I am not sure if this is needed yet
       this.key = item;
+      this.value = value;
       frequencycount = freq;
       }
 
@@ -38,6 +39,14 @@ public class TreeObject<T extends Comparable<T>>{
      */
     public void setFrequencyCount(int newFrequency) {
       frequencycount= newFrequency;
+    }
+
+    public void setValue(T newValue){
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
     }
 
     /**
@@ -69,8 +78,8 @@ public class TreeObject<T extends Comparable<T>>{
      * @param compareObject The key to be compared against the current Key.
      * @return 1 if object is greater, 0 if object is lesser
      */
-    public int compare(T compareObject) {
-        return key.compareTo(compareObject);
+    public int compare(TreeObject compareObject) {
+        return key.compareTo((T) compareObject.getKey());
     }
 
 
