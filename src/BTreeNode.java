@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
+import com.sun.source.tree.Tree;
 
 /**
  * The nodes for Btrees, which will hold TreeObjects.
@@ -8,11 +6,11 @@ import java.util.ArrayList;
  * @Author Alayne Rice
  * @Semester
  */
-public class BTreeNode<TreeObject> {
+public class BTreeNode{
     private int M; //order of tree
     private int keys = M - 1;
-    private BTreeNode[] children;
-    private Object[] arrayVals;
+    private TreeObject[] children = new TreeObject[M];
+    private BTreeNode[] childNodes = new BTreeNode[keys];
     private int numChildren;
     // min children - internal nodes = M/2
     //root has min children of 0
@@ -26,14 +24,22 @@ public class BTreeNode<TreeObject> {
      */
     public BTreeNode(int mVal) {
         this(mVal, 0);
+
     }
 
 
     public BTreeNode(int mVal, int childrenVal) {
         M = mVal;
         numChildren = childrenVal;
-        children = new BTreeNode[M];
-        arrayVals = new Object[keys];
+    }
+
+
+    public void addChildren(int location, TreeObject item) {
+        children[location] = item;
+    }
+
+    public void addNMode(int location, BTreeNode item){
+        childNodes[location] = item;
     }
 
 
@@ -45,23 +51,31 @@ public class BTreeNode<TreeObject> {
         M = newM;
     }
 
+    public int getNumChildren() {
+        return numChildren;
+    }
+
+    public void setNumChildren(int newNum) {
+        numChildren = newNum;
+    }
+
     //unsure if neccessary?
+
     /**
      * returns a child node from the current node.
      *
-     * @param location
-     * @return
+     * @param location the location of the child you want to gather.
+     * @return the child you wish to gather.
      */
-    public BTreeNode getChild(int location) {
-        return children[location];
+    public BTreeNode getChildNode(int location) {
+        BTreeNode child = (BTreeNode) childNodes[location];
+        return child;
     }
 
-    public TreeObject getObject(int location){
-        return (TreeObject) arrayVals[location];
+    public TreeObject getChildObject(int location){
+        return (TreeObject) children[location];
     }
 
 
-    }
+}
 
-
-// probably needs other shit Iunno yet!
