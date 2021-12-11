@@ -25,8 +25,7 @@ public class GeneBankCreateBTree
 		//	System.out.println(String.format("%62s",Long.toBinaryString(intArr[i])).replace(' ','0'));
 		//}//used to print out all binary strings
 
-		//QueryGenerator qG=new QueryGenerator();
-		//strArr=qG.generateQuery(k);				//these are used for searching later ignore for now
+
 
 	}
 
