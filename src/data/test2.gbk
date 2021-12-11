@@ -108,8 +108,8 @@ ORIGIN
      1681 cttatggtga tgtgatttat ttcaacttcg aagttgtctc cacaacggat ttgtttgcca
      1741 ttagttctct tcccaatatt aacgctacaa ggggtgaatg gttctcctac tattttttgc
      1801 cttctcagtt tacagactac gtgaatacaa acgtttcatt agagtttact aattcaagcc
-     1861 aagaccatga ctnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
-     1921 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn tctcaagagc
+     1861 aagaccatga ctgggtgaaa ttccaatcat ctaatttaac attagctgga gaagtgccca
+     1921 agaatttcga caagctttca ttaggtttga aagcgaacca aggttcacaa tctcaagagc
      1981 tatattttaa catcattggc atggattcaa agataactca ctcaaaccac agtgcgaatg
      2041 caacgtccac aagaagttct caccactcca cctcaacaag ttcttacaca tcttctactt
      2101 acactgcaaa aatttcttct acctccgctg ctgctacttc ttctgctcca gcagcgctgc
@@ -328,4 +328,5 @@ ORIGIN
      4921 ttttcagtgt tagattgctc taattctttg agctgttctc tcagctcctc atatttttct
      4981 tgccatgact cagattctaa ttttaagcta ttcaatttct ctttgatc
 //
+
 
