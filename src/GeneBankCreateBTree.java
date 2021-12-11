@@ -20,6 +20,10 @@ public class GeneBankCreateBTree
 		String str=getFullString(args);				//gets full string of actgACTG
 		String strArr[]=getCutStrings(str, k);		//cuts the previous string into k sized chunks
 		long intArr[]=getLongInts(strArr, k);		//converts the previous string into binary, then long int based off that
+		//for(int i=0;i<intArr.length;i++)
+		//{
+		//	System.out.println(String.format("%62s",Long.toBinaryString(intArr[i])).replace(' ','0'));
+		//}//used to print out all binary strings
 
 		//QueryGenerator qG=new QueryGenerator();
 		//strArr=qG.generateQuery(k);				//these are used for searching later ignore for now
