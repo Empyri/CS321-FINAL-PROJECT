@@ -1,5 +1,5 @@
 public class BTree <T extends Comparable<T>>{
-    private int M=4;
+    private int M; //degree
     private BTreeNode root; //root of B-tree
     private int height; //height of B=tree
     private int size; //number of keys in B=tree
@@ -42,10 +42,8 @@ public class BTree <T extends Comparable<T>>{
         //in the case of an external node
         if (height == 0) {
             for (i = 0; i < node.getNumChildren(); i++) {
-//                if (node.getChildObject().getClass()) {
-//
-//
-//                }
+
+
             }
         }
         return null;
