@@ -1,16 +1,25 @@
 import java.io.*;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
-
-public class GeneBankCreateBTree
+/**
+ * Primary class that takes a .GBK file and outputs a BTree file.
+ * It is able to implement a cache feature, and convert a resulting string of characters into a long.
+ * The long converts into the B-tree key, with the string turning into the value paired with the resultant key.
+ * 2 arrays store the key and the value pairings, and then a for loop iterates through both arrays to create the BTree.
+ * @Author Michael Alberda
+ * @Author Jordan Whyte
+ * @Author Alayne Rice
+ * @Semester Fall 2021
+ * @Limitations The Degree of the BTree must be greater than 4 and even.
+ */
+public class GeneBankCreateBTree<T> implements Serializable
 {
-
-
 	//open file and read only atgc characters after origin before // line
 	public static void main(String args[])
 	{
-		int debugLevel=Integer.parseInt(args[0]);//debug level
+		int cacheLevel=Integer.parseInt(args[0]);//debug level
 		int degree=Integer.parseInt(args[1]);//degree of tree
+		int cacheSize = 0;
 		if(degree<4 || degree%2==1)
 		{
 			System.out.println("Degree must be greater than 4 and even");
@@ -20,11 +29,12 @@ public class GeneBankCreateBTree
 		int k=Integer.parseInt(args[3]);//sequence length
 
 		try {
-			int cacheSize = Integer.parseInt(args[4]);
+			cacheSize = Integer.parseInt(args[4]);
 		}catch(Exception e){System.out.println("No chosen cache size");}
 
+		int debugLevel=0;
 		try {
-			int debugLevel2 = Integer.parseInt(args[5]);
+			debugLevel = Integer.parseInt(args[5]);
 		}catch(Exception e){System.out.println("no second debug level");}
 
 
@@ -34,24 +44,68 @@ public class GeneBankCreateBTree
 			return;
 		}
 
-
 		String str=getFullString(gbk);				//gets full string of actgACTG
 		String strArr[]=getCutStrings(str, k);		//cuts the previous string into k sized chunks
 		long intArr[]=getLongInts(strArr, k);		//converts the previous string into binary, then long int based off that
 
 		BTree bTree=new BTree(degree);
-		for (int i=0; i<intArr.length; i++){
-			bTree.put(intArr[i],strArr[i] );
+
+		//if using cache create the btree and put data into the cache
+		if(cacheLevel == 1)
+		{
+			Cache cache = new Cache(cacheSize);
+
+			for (int i=0; i<intArr.length; i++) {
+				if(cache.find(intArr[i]) == null) //if there is an error check this line for if the cache is being added to
+				{
+					bTree.put(intArr[i], strArr[i]);
+				}
+				else
+				{
+					bTree.searchIncrementFrequency(bTree.getRoot(), intArr[i], bTree.getHeight());
+				}
+			}
+		}
+		else
+		{
+			for (int i=0; i<intArr.length; i++){
+				bTree.put(intArr[i],strArr[i] );
+			}
 		}
 
 
+
+
+
+
+
+		if(debugLevel==1)
+		{
+			File file=new File("dump");
+			byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
+			try(FileOutputStream fos=new FileOutputStream(file)) {
+				fos.write(data);
+				System.out.println("successfully completed");
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+
 		System.out.println();
-		System.out.println(bTree);
+		//System.out.println(bTree);
 		System.out.println();
 		System.out.println("size:    " + bTree.size());
-		System.out.println("height:  " + bTree.height());
+		System.out.println("height:  " + bTree.getHeight());
 
-		File file=new File(gbk+".btree.data."+k+"."+degree);
+		try{
+			File file=new File(gbk+".btree.data."+k+"."+degree);
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(bTree);
+			oos.close();
+		}catch(Exception e){System.out.println("something went wrong duirng serialization");}
+
+	/*	File file=new File(gbk+".btree.data."+k+"."+degree);
 		byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
 
 		try(FileOutputStream fos=new FileOutputStream(file)) {
@@ -59,7 +113,7 @@ public class GeneBankCreateBTree
 			System.out.println("successfully completed");
 		}catch(IOException e){
 			e.printStackTrace();
-		}
+		}*/
 
 
 	}
@@ -68,6 +122,13 @@ public class GeneBankCreateBTree
 
 
 	//no idea if this is needed
+
+	/**
+	 * Creates an array of long values that will be used as the keys.
+	 * @param strArr the array of strings that are made from
+	 * @param k Length of the strings that are being input from the array.
+	 * @return
+	 */
 	public static long [] getLongInts(String []strArr,int k)
 	{
 		try{
@@ -109,6 +170,13 @@ public class GeneBankCreateBTree
 		return null;
 	}
 
+	/**
+	 * Creates an array of cut strings that will be used in the B-Tree as the values.
+	 * Utilizes the getFullString file to cut into the array of strings with size k.
+	 * @param str the String
+	 * @param k Lenfth of the stroi
+	 * @return an array of strings.
+	 */
 	public static String [] getCutStrings(String str, int k)
 	{
 		//reads second argument as length, saved as int k
@@ -141,6 +209,11 @@ public class GeneBankCreateBTree
 		return failure;
 	}
 
+	/**
+	 * Takes the complete GBK file, and removes everything but ATCG from the file, as one massive string.
+	 * @param gbk The file to be input to be scrubbed into a workable file.
+	 * @return
+	 */
 	public static String getFullString(String gbk)
 	{
 		try

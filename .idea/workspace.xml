@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a47db72a-3a53-45cf-b559-e0861e4e05ab" name="Changes" comment="Fixed BTree.java added binary file output.">
+      <change beforePath="$PROJECT_DIR$/src/BTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" afterDir="false" />
+    </list>
+    <list id="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" name="Changes by malberda" comment="Changes by malberda">
+      <change beforePath="$PROJECT_DIR$/src/BTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GeneBankSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneBankSearch.java" afterDir="false" />
+    </list>
+    <list id="b2a7cc5e-9f12-415f-924f-2ee255a8b449" name="Changes by whyte" comment="">
+      <change beforePath="$PROJECT_DIR$/src/BTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GeneBankCreateBTree.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/BTree.java">
+      <ranges>
+        <range start1="0" end1="1" start2="0" end2="12" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="14" end1="15" start2="25" end2="26" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="19" end1="20" start2="30" end2="31" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="31" end1="34" start2="42" end2="43" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="38" end1="38" start2="47" end2="49" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="55" end1="55" start2="66" end2="68" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="58" end1="58" start2="71" end2="126" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="65" end1="65" start2="133" end2="163" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="85" end1="86" start2="183" end2="184" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="100" end1="102" start2="198" end2="199" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="104" end1="105" start2="201" end2="202" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="108" end1="143" start2="205" end2="206" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="167" end1="167" start2="230" end2="239" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="202" end1="203" start2="274" end2="280" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="212" end1="214" start2="289" end2="290" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="220" end1="220" start2="296" end2="302" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="226" end1="227" start2="308" end2="309" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="237" end1="237" start2="319" end2="325" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="241" end1="241" start2="329" end2="330" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/GeneBankCreateBTree.java">
+      <ranges>
+        <range start1="3" end1="5" start2="3" end2="15" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="6" end1="8" start2="16" end2="16" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="11" end1="12" start2="19" end2="20" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="13" end1="13" start2="21" end2="22" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="22" end1="23" start2="31" end2="32" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="25" end1="25" start2="34" end2="35" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="26" end1="27" start2="36" end2="37" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="36" end1="37" start2="46" end2="46" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="42" end1="44" start2="51" end2="67" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="45" end1="45" start2="68" end2="80" changelist="b2a7cc5e-9f12-415f-924f-2ee255a8b449" />
+        <range start1="46" end1="46" start2="81" end2="92" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="48" end1="49" start2="94" end2="95" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="51" end1="52" start2="97" end2="98" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="53" end1="54" start2="99" end2="108" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="61" end1="62" start2="115" end2="116" changelist="c92547a4-a3ff-4c1b-9c5e-a843f6e33bca" />
+        <range start1="70" end1="70" start2="124" end2="131" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="111" end1="111" start2="172" end2="179" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+        <range start1="143" end1="143" start2="211" end2="216" changelist="a47db72a-3a53-45cf-b559-e0861e4e05ab" />
+      </ranges>
+    </file>
+  </component>
+  <component name="ProjectId" id="2246C36dTYpyfHTwfPxZwviBPXu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Liqui\IdeaProjects\CS321-FINAL-PROJECT\src" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a47db72a-3a53-45cf-b559-e0861e4e05ab" name="Changes" comment="" />
+      <created>1639084380265</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639084380265</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added TreeObject.java and BTreeNode.java. Created class for Btree. No work in it yet.">
+      <created>1639097374804</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639097374804</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added TreeObject.java and BTreeNode.java. Created class for Btree. No work in it yet.">
+      <created>1639241298007</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639241298007</updated>
+    </task>
+    <task id="LOCAL-00003" summary="modified BTree.java">
+      <created>1639242759340</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639242759340</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed BTree.java added binary file output.">
+      <created>1639257053995</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1639257053995</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Changes by malberda">
+      <created>1639257058735</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1639257058735</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="AlayneBranch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added TreeObject.java and BTreeNode.java. Created class for Btree. No work in it yet." />
+    <MESSAGE value="modified BTree.java" />
+    <MESSAGE value="Fixed BTree.java added binary file output." />
+    <MESSAGE value="Changes by malberda" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes by malberda" />
+  </component>
+</project>
