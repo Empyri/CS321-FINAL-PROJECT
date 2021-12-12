@@ -79,7 +79,7 @@ public class BTree implements Serializable{
      */
     public String get(Long key) {
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
-        return search(root, key, height);
+        return geneSearch(root, key, height);
     }
 
 
@@ -103,12 +103,12 @@ public class BTree implements Serializable{
         return null;
     }
 
-    public String geneSearch(BTreeNode x, Long key, int ht) {
+    private String geneSearch(BTreeNode x, Long key, int ht) {
         TreeObject[] children = x.children;
         // external node
         if (ht == 0) {
             for (int j = 0; j < x.numChildren; j++) {
-                if (compareTo(key, children[j].key)==0) return ((String) children[j].dnaVal+": "+children[j].frequency);
+                if (compareTo(key, children[j].key)==0) return ((String) children[j].dnaVal+": "+children[j].frequency+" k="+children[j].key);
             }
         }
 
@@ -306,7 +306,7 @@ public class BTree implements Serializable{
 
         if (ht == 0) {
             for (int j = 0; j < h.numChildren; j++) {
-                s.append(children[j].dnaVal + ": " + children[j].frequency + "\n");
+                s.append(children[j].dnaVal + ": " + children[j].frequency + " k="+children[j].key+ "\n");
             }
         }
         else {

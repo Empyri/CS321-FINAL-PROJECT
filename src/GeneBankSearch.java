@@ -27,10 +27,11 @@ public class GeneBankSearch
             BTree bTree=(BTree) ois.readObject();
 
             try (BufferedReader br = new BufferedReader(new FileReader(queryFile))) {
-  //              System.out.println(bTree);
+             //   System.out.println(bTree);
                 String line;
                 if(debugLevel==1)
                 {
+                    int count=0;
                     System.out.println(bTreeFile.substring(0,12)+"_"+queryFile.substring(8,14)+"_result");
                     file=new File(bTreeFile.substring(0,12)+"_"+queryFile.substring(8,14)+"_result");
                     if(file.createNewFile()){
@@ -38,23 +39,31 @@ public class GeneBankSearch
                     }else{
                         System.out.println("File: "+file.getName()+" already exists");
                     }
-                }
-                while((line=br.readLine()) !=null)
-                {
-                    Long i=getLong(line);
-                //    System.out.println("long "+i+" line "+line);
-                    String str=bTree.geneSearch(bTree.getRoot(),i,bTree.getHeight());
-                    if(debugLevel==1)
-                    {
-                     //   if(str!=null)
-                        {
                             FileWriter myWriter=new FileWriter(file);
-                            myWriter.write(str+"\n");
-                            System.out.println(str);
+                            myWriter.write("");
+                    while((line=br.readLine()) !=null)
+                    {
+                        Long i=getLong(line);
+                            System.out.println("searching for long "+i+" line "+line);
+                        String str=bTree.get(i);
+                        count++;
+
+                        if(str!=null)
+                        {
+                            myWriter.append(str+"\n");
+                             System.out.println(str);
                         }
                     }
-                    else
+                    myWriter.flush();
+                    myWriter.close();
+                }
+                else{
+                    while((line=br.readLine()) !=null)
                     {
+                        Long i=getLong(line);
+                    //    System.out.println("long "+i+" line "+line);
+                        String str=bTree.get(i);
+
                         if(str!=null)
                         {
                  	   //     System.out.println(str);
@@ -93,10 +102,11 @@ public class GeneBankSearch
                     {
                         strInt=strInt+"01";
                     }
-                    else
+                    else if(line.charAt(i)=='G' || line.charAt(i)=='g')
                     {
                         strInt=strInt+"10";
                     }
+
                 }
                 toRetLong=Long.parseLong(strInt,2);
             return toRetLong;

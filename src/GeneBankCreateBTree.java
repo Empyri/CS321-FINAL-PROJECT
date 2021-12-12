@@ -62,9 +62,7 @@ public class GeneBankCreateBTree<T>
 				}
 				else
 				{
-					System.out.println("before " + bTree.geneSearch(bTree.getRoot(),intArr[i],bTree.getHeight()));
 					bTree.searchIncrementFrequency(bTree.getRoot(), intArr[i], bTree.getHeight());
-					System.out.println("after " + bTree.geneSearch(bTree.getRoot(),intArr[i],bTree.getHeight()));
 				}
 			}
 		}
@@ -136,7 +134,7 @@ public class GeneBankCreateBTree<T>
 					{
 						strInt[j]=strInt[j]+"01";
 					}
-					else
+					else if(strArr[j].charAt(i)=='G' || strArr[j].charAt(i)=='g')
 					{
 						strInt[j]=strInt[j]+"10";
 					}
