@@ -62,7 +62,9 @@ public class GeneBankCreateBTree<T> implements Serializable
 				}
 				else
 				{
+					System.out.println("before " + bTree.geneSearch(bTree.getRoot(),intArr[i],bTree.getHeight()));
 					bTree.searchIncrementFrequency(bTree.getRoot(), intArr[i], bTree.getHeight());
+					System.out.println("after " + bTree.geneSearch(bTree.getRoot(),intArr[i],bTree.getHeight()));
 				}
 			}
 		}
@@ -81,6 +83,7 @@ public class GeneBankCreateBTree<T> implements Serializable
 
 		if(debugLevel==1)
 		{
+			System.out.println("making a dump file");
 			File file=new File("dump");
 			byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
 			try(FileOutputStream fos=new FileOutputStream(file)) {

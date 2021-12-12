@@ -103,7 +103,7 @@ public class BTree{
         return null;
     }
 
-    private String geneSearch(BTreeNode x, Long key, int ht) {
+    public String geneSearch(BTreeNode x, Long key, int ht) {
         TreeObject[] children = x.children;
         // external node
         if (ht == 0) {
@@ -116,7 +116,7 @@ public class BTree{
         else {
             for (int j = 0; j < x.numChildren; j++) {
                 if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
-                    return search(children[j].next, key, ht-1);
+                    return geneSearch(children[j].next, key, ht-1);
             }
         }
         return null;
