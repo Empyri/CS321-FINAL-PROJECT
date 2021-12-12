@@ -12,6 +12,7 @@ public class GeneBankSearch
         String queryFile=args[2];
         int cacheSize=0;
         int debugLevel=0;
+        File file=null;
 
         try {
             cacheSize = Integer.parseInt(args[3]);
@@ -21,16 +22,44 @@ public class GeneBankSearch
         }catch(Exception e){System.out.println("No chosen debug level");}
 
         try{
-            FileInputStream fis=new FileInputStream("t.tmp");
+            FileInputStream fis=new FileInputStream(bTreeFile);
             ObjectInputStream ois=new ObjectInputStream(fis);
             BTree bTree=(BTree) ois.readObject();
 
             try (BufferedReader br = new BufferedReader(new FileReader(queryFile))) {
-                String line;System.out.println("help");
-                int i=0;
-                int ht=bTree.getHeight();
-                while ((line = br.readLine()) != null) {
-                    //		geneSearch(bTree,i,ht);
+  //              System.out.println(bTree);
+                String line;
+                if(debugLevel==1)
+                {
+                    System.out.println(bTreeFile.substring(0,12)+"_"+queryFile.substring(8,14)+"_result");
+                    file=new File(bTreeFile.substring(0,12)+"_"+queryFile.substring(8,14)+"_result");
+                    if(file.createNewFile()){
+                        System.out.println("File Created: "+file.getName());
+                    }else{
+                        System.out.println("File: "+file.getName()+" already exists");
+                    }
+                }
+                while((line=br.readLine()) !=null)
+                {
+                    Long i=getLong(line);
+                //    System.out.println("long "+i+" line "+line);
+                    String str=bTree.geneSearch(bTree.getRoot(),i,bTree.getHeight());
+                    if(debugLevel==1)
+                    {
+                     //   if(str!=null)
+                        {
+                            FileWriter myWriter=new FileWriter(file);
+                            myWriter.write(str+"\n");
+                            System.out.println(str);
+                        }
+                    }
+                    else
+                    {
+                        if(str!=null)
+                        {
+                 	   //     System.out.println(str);
+                        }
+                    }
                 }
             }catch(Exception e){System.out.println("something went wrong BufferedReader");}
 
@@ -45,13 +74,39 @@ public class GeneBankSearch
 
     }
 
+    private static Long getLong(String line)
+    {
+        try{
+            String strInt="";
+            long toRetLong=0L;
+                for(int i=0;i<line.length();i++)
+                {                           //there has to be a more efficent method but im tired and dont want to fix this.
+                    if(line.charAt(i)=='A' || line.charAt(i)=='a')
+                    {
+                        strInt=strInt+"00";
+                    }
+                    else if(line.charAt(i)=='T' || line.charAt(i)=='t')
+                    {
+                        strInt=strInt+"11";
+                    }
+                    else if(line.charAt(i)=='C' || line.charAt(i)=='c')
+                    {
+                        strInt=strInt+"01";
+                    }
+                    else
+                    {
+                        strInt=strInt+"10";
+                    }
+                }
+                toRetLong=Long.parseLong(strInt,2);
+            return toRetLong;
 
-
-
-
-
-
-
+        }catch(Exception e)
+        {
+            System.out.println("something went wrong converting the strings to longs");
+        }
+        return null;
+    }
 
 }
 

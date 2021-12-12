@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 /**
  * Primary class that takes a .GBK file and outputs a BTree file.
  * It is able to implement a cache feature, and convert a resulting string of characters into a long.
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets;
  * @Semester Fall 2021
  * @Limitations The Degree of the BTree must be greater than 4 and even.
  */
-public class GeneBankCreateBTree<T> implements Serializable
+public class GeneBankCreateBTree<T> 
 {
 	//open file and read only atgc characters after origin before // line
 	public static void main(String args[])
@@ -54,7 +55,6 @@ public class GeneBankCreateBTree<T> implements Serializable
 		if(cacheLevel == 1)
 		{
 			Cache cache = new Cache(cacheSize);
-
 			for (int i=0; i<intArr.length; i++) {
 				if(cache.find(intArr[i]) == null) //if there is an error check this line for if the cache is being added to
 				{
@@ -75,16 +75,10 @@ public class GeneBankCreateBTree<T> implements Serializable
 			}
 		}
 
-
-
-
-
-
-
 		if(debugLevel==1)
 		{
 			System.out.println("making a dump file");
-			File file=new File("dump");
+			File file=new File("output/dump");
 			byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
 			try(FileOutputStream fos=new FileOutputStream(file)) {
 				fos.write(data);
@@ -101,24 +95,12 @@ public class GeneBankCreateBTree<T> implements Serializable
 		System.out.println("height:  " + bTree.getHeight());
 
 		try{
-			File file=new File(gbk+".btree.data."+k+"."+degree);
+			File file=new File("output/"+gbk.substring(5,14)+".btree.data."+k+"."+degree);
 			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(bTree);
 			oos.close();
-		}catch(Exception e){System.out.println("something went wrong duirng serialization");}
-
-	/*	File file=new File(gbk+".btree.data."+k+"."+degree);
-		byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
-
-		try(FileOutputStream fos=new FileOutputStream(file)) {
-			fos.write(data);
-			System.out.println("successfully completed");
-		}catch(IOException e){
-			e.printStackTrace();
-		}*/
-
-
+		}catch(Exception e){System.out.println("something went wrong during serialization");}
 	}
 
 
@@ -184,8 +166,9 @@ public class GeneBankCreateBTree<T> implements Serializable
 	{
 		//reads second argument as length, saved as int k
 		try{
-			String [] cutStrings=new String[str.length()-k];
-			File outputFile=new File("testOutput.txt");			//creates testoutput file, unused as of 12/1
+			ArrayList<String> cutStrings=new ArrayList<String>();
+//			String [] cutStrings=new String[str.length()-k];
+/*			File outputFile=new File("output/testOutput.txt");			//creates testoutput file, unused as of 12/1
 			if(outputFile.createNewFile())
 			{
 				System.out.println("File Created: "+outputFile.getName());
@@ -194,16 +177,24 @@ public class GeneBankCreateBTree<T> implements Serializable
 			{
 				System.out.println("File already exists.");
 			}
-			FileWriter myWriter=new FileWriter("testOutput.txt");
+			FileWriter myWriter=new FileWriter("output/testOutput.txt");*/
 			for(int i=0;i<str.length()-k;i++)
 			{
-				cutStrings[i]=str.substring(i,i+k);
-				myWriter.write(str.substring(i,i+k)+"\n");;
+				if(!str.substring(i,i+k).contains("Q") && !str.substring(i,i+k).contains("n"))
+				{
+					cutStrings.add(str.substring(i,i+k));
+//					myWriter.write(str.substring(i,i+k)+"\n");
+				}
 			}
-			myWriter.close();
+//			myWriter.close();
+			String []toRetStrings= new String[cutStrings.size()];
+			for(int i=0;i<cutStrings.size();i++)
+			{
+				toRetStrings[i]=cutStrings.get(i);
+			}
 			System.out.println("finished writing to testOutput.txt");
-			return cutStrings;
-		} catch (IOException e){
+			return toRetStrings;
+		} catch (Exception e){
 			System.out.println("An error occured creating an output file.");
 			e.printStackTrace();
 		}
@@ -250,6 +241,7 @@ public class GeneBankCreateBTree<T> implements Serializable
 							if(line.equals("//"))
 							{
 								dna=false;
+								str=str+"Q";
 //								System.out.println("found //");		//when it finds // it ends dna mode
 								continue;
 							}
@@ -259,7 +251,7 @@ public class GeneBankCreateBTree<T> implements Serializable
 								for(int i=0;i<line.length();i++)
 								{
 									//removes numbers and 'n's from it hopefully. kinda annoying but idk it works
-									if(line.charAt(i)!='g' && line.charAt(i)!='a' && line.charAt(i)!='c' && line.charAt(i)!='t' && line.charAt(i)!='G' && line.charAt(i)!='A' && line.charAt(i)!='C' && line.charAt(i)!='T')
+									if(line.charAt(i)!='n' && line.charAt(i)!='g' && line.charAt(i)!='a' && line.charAt(i)!='c' && line.charAt(i)!='t' && line.charAt(i)!='G' && line.charAt(i)!='A' && line.charAt(i)!='C' && line.charAt(i)!='T')
 										continue;
 
 									else 						//if a or g or c or t, adds to str

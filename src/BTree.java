@@ -10,7 +10,7 @@
  * @Semester Fall 2021
  */
 import java.io.Serializable;
-public class BTree{
+public class BTree implements Serializable{
     // max children per B-tree node = M-1
     // (must be even and greater than 2)
     private static int M; //the Order of the B-tree
