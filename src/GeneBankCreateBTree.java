@@ -44,15 +44,40 @@ public class GeneBankCreateBTree<T> implements Serializable
 			return;
 		}
 
-
 		String str=getFullString(gbk);				//gets full string of actgACTG
 		String strArr[]=getCutStrings(str, k);		//cuts the previous string into k sized chunks
 		long intArr[]=getLongInts(strArr, k);		//converts the previous string into binary, then long int based off that
 
 		BTree bTree=new BTree(degree);
-		for (int i=0; i<intArr.length; i++){
-			bTree.put(intArr[i],strArr[i] );
+
+		//if using cache create the btree and put data into the cache
+		if(cacheLevel == 1)
+		{
+			Cache cache = new Cache(cacheSize);
+
+			for (int i=0; i<intArr.length; i++) {
+				if(cache.find(intArr[i]) == null) //if there is an error check this line for if the cache is being added to
+				{
+					bTree.put(intArr[i], strArr[i]);
+				}
+				else
+				{
+					bTree.searchIncrementFrequency(bTree.getRoot(), intArr[i], bTree.getHeight());
+				}
+			}
 		}
+		else
+		{
+			for (int i=0; i<intArr.length; i++){
+				bTree.put(intArr[i],strArr[i] );
+			}
+		}
+
+
+
+
+
+
 
 		if(debugLevel==1)
 		{

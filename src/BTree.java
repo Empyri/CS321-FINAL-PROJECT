@@ -65,6 +65,8 @@ public class BTree{
             return this.frequency;
         }
 
+        public void incrementFrequency(){this.frequency++; }
+
     }
 
         /**
@@ -130,6 +132,36 @@ public class BTree{
       this(32);
     }
 
+    public int searchIncrementFrequency(BTreeNode x, long key, int ht)
+    {
+        TreeObject[] children = x.children;
+        // external node
+        if (ht == 0) {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (compareTo(key, children[j].key)==0)
+                {
+                    children[j].incrementFrequency();
+                    return (children[j].frequency);
+                }
+            }
+        }
+
+        // internal node
+        else {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
+                {
+
+                    return searchIncrementFrequency(children[j].next, key, ht-1);
+                }
+
+            }
+        }
+        return 0;
+
+    }
+
+
     /**
      * Creates a B-Tree with a specified order
      * @Limitation The Order must be even and greater than or equal to 4.
@@ -167,7 +199,7 @@ public class BTree{
      * Returns the height of this B-tree.
      * @return the height of this B-tree
      */
-    public int height() {
+    public int getHeight() {
         return height;
     }
 
@@ -295,4 +327,5 @@ public class BTree{
     {
         return k1.compareTo(k2);
     }
+
 }
