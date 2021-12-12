@@ -23,7 +23,7 @@ public class BTree{
      * contains an array of TreeObjects with the size of the order.
      *
      */
-    private static final class BTreeNode {
+    private static final class BTreeNode  implements Serializable{
         private int numChildren;                             // number of children
         private TreeObject[] children = new TreeObject[M];   // the array of children
 
@@ -274,7 +274,7 @@ public class BTree{
 
         if (ht == 0) {
             for (int j = 0; j < h.numChildren; j++) {
-                s.append( children[j].key + " " + children[j].dnaVal + " " + children[j].frequency + "\n");
+                s.append(children[j].dnaVal + ": " + children[j].frequency + "\n");
             }
         }
         else {

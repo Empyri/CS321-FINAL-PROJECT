@@ -14,13 +14,12 @@ import java.nio.charset.StandardCharsets;
  */
 public class GeneBankCreateBTree<T> implements Serializable
 {
-
-
 	//open file and read only atgc characters after origin before // line
 	public static void main(String args[])
 	{
-		int debugLevel=Integer.parseInt(args[0]);//debug level
+		int cacheLevel=Integer.parseInt(args[0]);//debug level
 		int degree=Integer.parseInt(args[1]);//degree of tree
+		int cacheSize = 0;
 		if(degree<4 || degree%2==1)
 		{
 			System.out.println("Degree must be greater than 4 and even");
@@ -30,11 +29,12 @@ public class GeneBankCreateBTree<T> implements Serializable
 		int k=Integer.parseInt(args[3]);//sequence length
 
 		try {
-			int cacheSize = Integer.parseInt(args[4]);
+			cacheSize = Integer.parseInt(args[4]);
 		}catch(Exception e){System.out.println("No chosen cache size");}
 
+		int debugLevel=0;
 		try {
-			int debugLevel2 = Integer.parseInt(args[5]);
+			debugLevel = Integer.parseInt(args[5]);
 		}catch(Exception e){System.out.println("no second debug level");}
 
 
@@ -54,14 +54,33 @@ public class GeneBankCreateBTree<T> implements Serializable
 			bTree.put(intArr[i],strArr[i] );
 		}
 
+		if(debugLevel==1)
+		{
+			File file=new File("dump");
+			byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
+			try(FileOutputStream fos=new FileOutputStream(file)) {
+				fos.write(data);
+				System.out.println("successfully completed");
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}
 
 		System.out.println();
-		System.out.println(bTree);
+		//System.out.println(bTree);
 		System.out.println();
 		System.out.println("size:    " + bTree.size());
-		System.out.println("height:  " + bTree.height());
+		System.out.println("height:  " + bTree.getHeight());
 
-		File file=new File(gbk+".btree.data."+k+"."+degree);
+		try{
+			File file=new File(gbk+".btree.data."+k+"."+degree);
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(bTree);
+			oos.close();
+		}catch(Exception e){System.out.println("something went wrong duirng serialization");}
+
+	/*	File file=new File(gbk+".btree.data."+k+"."+degree);
 		byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
 
 		try(FileOutputStream fos=new FileOutputStream(file)) {
@@ -69,7 +88,7 @@ public class GeneBankCreateBTree<T> implements Serializable
 			System.out.println("successfully completed");
 		}catch(IOException e){
 			e.printStackTrace();
-		}
+		}*/
 
 
 	}
