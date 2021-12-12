@@ -1,8 +1,18 @@
 import java.io.*;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
-
-public class GeneBankCreateBTree
+/**
+ * Primary class that takes a .GBK file and outputs a BTree file.
+ * It is able to implement a cache feature, and convert a resulting string of characters into a long.
+ * The long converts into the B-tree key, with the string turning into the value paired with the resultant key.
+ * 2 arrays store the key and the value pairings, and then a for loop iterates through both arrays to create the BTree.
+ * @Author Michael Alberda
+ * @Author Jordan Whyte
+ * @Author Alayne Rice
+ * @Semester Fall 2021
+ * @Limitations The Degree of the BTree must be greater than 4 and even.
+ */
+public class GeneBankCreateBTree<T> implements Serializable
 {
 
 
@@ -68,6 +78,13 @@ public class GeneBankCreateBTree
 
 
 	//no idea if this is needed
+
+	/**
+	 * Creates an array of long values that will be used as the keys.
+	 * @param strArr the array of strings that are made from
+	 * @param k Length of the strings that are being input from the array.
+	 * @return
+	 */
 	public static long [] getLongInts(String []strArr,int k)
 	{
 		try{
@@ -109,6 +126,13 @@ public class GeneBankCreateBTree
 		return null;
 	}
 
+	/**
+	 * Creates an array of cut strings that will be used in the B-Tree as the values.
+	 * Utilizes the getFullString file to cut into the array of strings with size k.
+	 * @param str the String
+	 * @param k Lenfth of the stroi
+	 * @return an array of strings.
+	 */
 	public static String [] getCutStrings(String str, int k)
 	{
 		//reads second argument as length, saved as int k
@@ -141,6 +165,11 @@ public class GeneBankCreateBTree
 		return failure;
 	}
 
+	/**
+	 * Takes the complete GBK file, and removes everything but ATCG from the file, as one massive string.
+	 * @param gbk The file to be input to be scrubbed into a workable file.
+	 * @return
+	 */
 	public static String getFullString(String gbk)
 	{
 		try

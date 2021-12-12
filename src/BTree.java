@@ -1,4 +1,15 @@
-
+/**
+ * Primary class for implementing a B-tree.
+ * This class will take a long and a string input.
+ * The long is the key, and the string is the value paired with the key.
+ * It cannot delete any entries, and manages a link between key-values.
+ * @Limitations, The Order must be even AND >=4.
+ * @Author Alayne Rice
+ * @Author Michael Alberda
+ * @Author Jordan Whyte
+ * @Semester Fall 2021
+ */
+import java.io.Serializable;
 public class BTree{
     // max children per B-tree node = M-1
     // (must be even and greater than 2)
@@ -17,7 +28,7 @@ public class BTree{
         private TreeObject[] children = new TreeObject[M];   // the array of children
 
         /**
-         * creates a BTreeNode.
+         * creates a BTreeNode. Requires an input of how many children are in the BTreeNode.
          * @param childrenNum The number of children that the BTreeNode has.
          */
         private BTreeNode(int childrenNum) {
@@ -29,13 +40,13 @@ public class BTree{
      * A TreeObject class that contains the objects inside the BTreeNodes.
      * A helper to keep track of everything.
      */
-    // The internal nodes: only care about key and next
-    // external nodes: only care about key and value
-    private static class TreeObject {
+    private static class TreeObject  implements Serializable{
         private Long key;
         private String dnaVal;
         private int frequency;
         private BTreeNode next;
+        // The internal nodes: only care about key and next
+        // external nodes: only care about key and value
 
         /**
          * Creates a TreeObject.
@@ -55,6 +66,61 @@ public class BTree{
         }
 
     }
+
+        /**
+     * Returns the value associated with the given key.
+     *
+     * @param  key the key
+     * @return the value associated with the given key if the key is in the symbol table
+     *         and {@code null} if the key is not in the symbol table
+     * @throws IllegalArgumentException if {@code key} is {@code null}
+     */
+    public String get(Long key) {
+        if (key == null) throw new IllegalArgumentException("argument to get() is null");
+        return search(root, key, height);
+    }
+
+
+    private String search(BTreeNode x, Long key, int ht) {
+        TreeObject[] children = x.children;
+
+        // external node
+        if (ht == 0) {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (compareTo(key, children[j].key)==0) return (String) children[j].dnaVal;
+            }
+        }
+
+        // internal node
+        else {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
+                    return search(children[j].next, key, ht-1);
+            }
+        }
+        return null;
+    }
+
+    private String geneSearch(BTreeNode x, Long key, int ht) {
+        TreeObject[] children = x.children;
+        // external node
+        if (ht == 0) {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (compareTo(key, children[j].key)==0) return ((String) children[j].dnaVal+": "+children[j].frequency);
+            }
+        }
+
+        // internal node
+        else {
+            for (int j = 0; j < x.numChildren; j++) {
+                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
+                    return search(children[j].next, key, ht-1);
+            }
+        }
+        return null;
+    }
+
+
 
     /**
      * Initializes an empty B-tree.
@@ -83,7 +149,7 @@ public class BTree{
 
     /**
      * Returns true if this symbol table is empty.
-     * @return {@code true} if this symbol table is empty; {@code false} otherwise
+     * @return true if this symbol table is empty; false otherwise
      */
     public boolean isEmpty() {
         return size() == 0;
@@ -98,49 +164,14 @@ public class BTree{
     }
 
     /**
-     * Returns the height of this B-tree (for debugging).
-     *
+     * Returns the height of this B-tree.
      * @return the height of this B-tree
      */
     public int height() {
         return height;
     }
 
-
-//    /**
-//     * Returns the value associated with the given key.
-//     *
-//     * @param  key the key
-//     * @return the value associated with the given key if the key is in the symbol table
-//     *         and {@code null} if the key is not in the symbol table
-//     * @throws IllegalArgumentException if {@code key} is {@code null}
-//     */
-//    public String get(Long key) {
-//        if (key == null) throw new IllegalArgumentException("argument to get() is null");
-//        return search(root, key, height);
-//    }
-//
-//
-//    private String search(BTreeNode x, Long key, int ht) {
-//        TreeObject[] children = x.children;
-//
-//        // external node
-//        if (ht == 0) {
-//            for (int j = 0; j < x.numChildren; j++) {
-//                if (compareTo(key, children[j].key)==0) return (String) children[j].dnaVal;
-//            }
-//        }
-//
-//        // internal node
-//        else {
-//            for (int j = 0; j < x.numChildren; j++) {
-//                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
-//                    return search(children[j].next, key, ht-1);
-//            }
-//        }
-//        return null;
-//    }
-
+    public BTreeNode getRoot() { return root;}
 
     /**
      * Inserts the key-dnaVal pair into the symbol table, overwriting the old value
@@ -165,6 +196,15 @@ public class BTree{
         height++;
     }
 
+    /**
+     * A private class that helps manage put, by allowing self recursion and managing when splits happen.
+     * @param h the BTreeNode that is input for insertion.
+     * @param key the key to be inserted
+     * @param dnaVal the String to be paired with the key input
+     * @param ht the current height of the BTree.
+     * @return Null if there is no need to return a split node set.
+     * @return A split node if one node becomes overfilled.
+     */
     private BTreeNode insert(BTreeNode h, Long key, String dnaVal, int ht) {
         int j;
         TreeObject t = new TreeObject(key, dnaVal, null);
@@ -200,7 +240,12 @@ public class BTree{
         else         return split(h);
     }
 
-    // split node in half
+
+    /**
+     * Splits a node in half
+     * @param h The node to be split
+     * @return a node with the splits implemented.
+     */
     private BTreeNode split(BTreeNode h) {
         BTreeNode t = new BTreeNode(M/2);
         h.numChildren = M/2;
@@ -210,14 +255,19 @@ public class BTree{
     }
 
     /**
-     * Returns a string representation of this B-tree (for debugging).
-     *
+     * Returns a string representation of this B-tree.
      * @return a string representation of this B-tree.
      */
     public String toString() {
         return toString(root, height) + "\n";
     }
 
+    /**
+     * A internal private class that uses a StringBuilder to append the children of nodes, account for repeats, and display it all
+     * @param h the node to be transcribed (It is generally root).
+     * @param ht the height of the B-tree. (generally the height)
+     * @return A value mimicing this: Value: frewuency.
+     */
     private String toString(BTreeNode h, int ht) {
         StringBuilder s = new StringBuilder();
         TreeObject[] children = h.children;
@@ -235,6 +285,12 @@ public class BTree{
         return s.toString();
     }
 
+    /**
+     * an implemented compareTo to ensure that comparisons for insertion work as intended.
+     * @param k1 the key to be compared
+     * @param k2 the key comparing against k1.
+     * @return 3 potential integers. -1 if k1 is less than k2, 0 if they are equal, and 1 if k1 is greater than k2.
+     */
     public int compareTo(Comparable k1, Comparable k2)
     {
         return k1.compareTo(k2);
