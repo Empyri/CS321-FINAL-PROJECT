@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 /**
  * Primary class that takes a .GBK file and outputs a BTree file.
  * It is able to implement a cache feature, and convert a resulting string of characters into a long.
@@ -13,11 +12,12 @@ import java.util.ArrayList;
  * @Semester Fall 2021
  * @Limitations The Degree of the BTree must be greater than 4 and even.
  */
-public class GeneBankCreateBTree<T> 
+public class GeneBankCreateBTree<T> implements Serializable
 {
 	//open file and read only atgc characters after origin before // line
 	public static void main(String args[])
 	{
+		long start =System.currentTimeMillis();
 		int cacheLevel=Integer.parseInt(args[0]);//debug level
 		int degree=Integer.parseInt(args[1]);//degree of tree
 		int cacheSize = 0;
@@ -55,8 +55,9 @@ public class GeneBankCreateBTree<T>
 		if(cacheLevel == 1)
 		{
 			Cache cache = new Cache(cacheSize);
+
 			for (int i=0; i<intArr.length; i++) {
-				if(cache.find(intArr[i]) == null) //if there is an error check this line for if the cache is being added to
+				if(cache.find(intArr[i]) == null)
 				{
 					bTree.put(intArr[i], strArr[i]);
 				}
@@ -73,15 +74,27 @@ public class GeneBankCreateBTree<T>
 			}
 		}
 
+		gbk=gbk.substring(5,14);
 		if(debugLevel==1)
 		{
-			System.out.println("making a dump file");
-			File file=new File("output/dump");
-			byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
-			try(FileOutputStream fos=new FileOutputStream(file)) {
-				fos.write(data);
-				System.out.println("successfully completed");
+			System.out.println("Making a dump file gbk is "+gbk);
+			try {
+				File file=new File("output/"+gbk+".btree.dump."+k);
+				if (file.createNewFile()) {
+					System.out.println("File created: " + "output/" + gbk + ".btree.dump." + k);
+				} else {
+					System.out.println("File exists already.");
+				}
+				byte[]data=bTree.toString().getBytes(StandardCharsets.UTF_8);
+				try(FileOutputStream fos=new FileOutputStream(file)) {
+					fos.write(data);
+					System.out.println("successfully completed");
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+
 			}catch(IOException e){
+				System.out.println("An error occured when creating dump file");
 				e.printStackTrace();
 			}
 		}
@@ -91,14 +104,16 @@ public class GeneBankCreateBTree<T>
 		System.out.println();
 		System.out.println("size:    " + bTree.size());
 		System.out.println("height:  " + bTree.getHeight());
+		long finish=System.currentTimeMillis();
+		System.out.println("Time elapsed: "+(finish-start));
 
 		try{
-			File file=new File("output/"+gbk.substring(5,14)+".btree.data."+k+"."+degree);
+			File file=new File("output/"+gbk+".btree.data."+k+"."+degree);
 			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(bTree);
 			oos.close();
-		}catch(Exception e){System.out.println("something went wrong during serialization");}
+		}catch(Exception e){System.out.println("something went wrong duirng serialization");}
 	}
 
 
@@ -134,7 +149,7 @@ public class GeneBankCreateBTree<T>
 					{
 						strInt[j]=strInt[j]+"01";
 					}
-					else if(strArr[j].charAt(i)=='G' || strArr[j].charAt(i)=='g')
+					else
 					{
 						strInt[j]=strInt[j]+"10";
 					}
@@ -162,43 +177,12 @@ public class GeneBankCreateBTree<T>
 	 */
 	public static String [] getCutStrings(String str, int k)
 	{
-		//reads second argument as length, saved as int k
-		try{
-			ArrayList<String> cutStrings=new ArrayList<String>();
-//			String [] cutStrings=new String[str.length()-k];
-/*			File outputFile=new File("output/testOutput.txt");			//creates testoutput file, unused as of 12/1
-			if(outputFile.createNewFile())
-			{
-				System.out.println("File Created: "+outputFile.getName());
-			}
-			else
-			{
-				System.out.println("File already exists.");
-			}
-			FileWriter myWriter=new FileWriter("output/testOutput.txt");*/
-			for(int i=0;i<str.length()-k;i++)
-			{
-				if(!str.substring(i,i+k).contains("Q") && !str.substring(i,i+k).contains("n"))
-				{
-					cutStrings.add(str.substring(i,i+k));
-//					myWriter.write(str.substring(i,i+k)+"\n");
-				}
-			}
-//			myWriter.close();
-			String []toRetStrings= new String[cutStrings.size()];
-			for(int i=0;i<cutStrings.size();i++)
-			{
-				toRetStrings[i]=cutStrings.get(i);
-			}
-			System.out.println("finished writing to testOutput.txt");
-			return toRetStrings;
-		} catch (Exception e){
-			System.out.println("An error occured creating an output file.");
-			e.printStackTrace();
+		String [] cutStrings=new String[str.length()-k];
+		for(int i=0;i<str.length()-k;i++)
+		{
+			cutStrings[i]=str.substring(i,i+k);
 		}
-		String[]failure=new String[1];
-		failure[0]="";
-		return failure;
+		return cutStrings;
 	}
 
 	/**
@@ -239,7 +223,6 @@ public class GeneBankCreateBTree<T>
 							if(line.equals("//"))
 							{
 								dna=false;
-								str=str+"Q";
 //								System.out.println("found //");		//when it finds // it ends dna mode
 								continue;
 							}
@@ -249,7 +232,7 @@ public class GeneBankCreateBTree<T>
 								for(int i=0;i<line.length();i++)
 								{
 									//removes numbers and 'n's from it hopefully. kinda annoying but idk it works
-									if(line.charAt(i)!='n' && line.charAt(i)!='g' && line.charAt(i)!='a' && line.charAt(i)!='c' && line.charAt(i)!='t' && line.charAt(i)!='G' && line.charAt(i)!='A' && line.charAt(i)!='C' && line.charAt(i)!='T')
+									if(line.charAt(i)!='g' && line.charAt(i)!='a' && line.charAt(i)!='c' && line.charAt(i)!='t' && line.charAt(i)!='G' && line.charAt(i)!='A' && line.charAt(i)!='C' && line.charAt(i)!='T')
 										continue;
 
 									else 						//if a or g or c or t, adds to str

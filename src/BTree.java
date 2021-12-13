@@ -10,7 +10,7 @@
  * @Semester Fall 2021
  */
 import java.io.Serializable;
-public class BTree implements Serializable{
+public class BTree implements Serializable {
     // max children per B-tree node = M-1
     // (must be even and greater than 2)
     private static int M; //the Order of the B-tree
@@ -21,14 +21,14 @@ public class BTree implements Serializable{
     /**
      * A private BTree class that serves as the nodes of the B-Tree.
      * contains an array of TreeObjects with the size of the order.
-     *
      */
-    private static final class BTreeNode  implements Serializable{
+    private static final class BTreeNode implements Serializable {
         private int numChildren;                             // number of children
         private TreeObject[] children = new TreeObject[M];   // the array of children
 
         /**
          * creates a BTreeNode. Requires an input of how many children are in the BTreeNode.
+         *
          * @param childrenNum The number of children that the BTreeNode has.
          */
         private BTreeNode(int childrenNum) {
@@ -40,7 +40,7 @@ public class BTree implements Serializable{
      * A TreeObject class that contains the objects inside the BTreeNodes.
      * A helper to keep track of everything.
      */
-    private static class TreeObject  implements Serializable{
+    private static class TreeObject implements Serializable {
         private Long key;
         private String dnaVal;
         private int frequency;
@@ -50,31 +50,34 @@ public class BTree implements Serializable{
 
         /**
          * Creates a TreeObject.
-         * @param key the Key of the TreeObject.
+         *
+         * @param key    the Key of the TreeObject.
          * @param dnaVal the Value of the DNA string for the TreeObject.
-         * @param next the iterative value for the TreeObject to help guide along the Btree.
+         * @param next   the iterative value for the TreeObject to help guide along the Btree.
          */
-                public TreeObject(long key, String dnaVal , BTreeNode next) {
-            this.key  = key;
-            this.frequency=1;
-            this.dnaVal  = dnaVal;
+        public TreeObject(long key, String dnaVal, BTreeNode next) {
+            this.key = key;
+            this.frequency = 1;
+            this.dnaVal = dnaVal;
             this.next = next;
         }
 
-        public int getFrequency(){
+        public int getFrequency() {
             return this.frequency;
         }
 
-        public void incrementFrequency(){this.frequency++; }
+        public void incrementFrequency() {
+            this.frequency++;
+        }
 
     }
 
-        /**
+    /**
      * Returns the value associated with the given key.
      *
-     * @param  key the key
+     * @param key the key
      * @return the value associated with the given key if the key is in the symbol table
-     *         and {@code null} if the key is not in the symbol table
+     * and {@code null} if the key is not in the symbol table
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public String get(Long key) {
@@ -83,45 +86,27 @@ public class BTree implements Serializable{
     }
 
 
-    private String search(BTreeNode x, Long key, int ht) {
-        TreeObject[] children = x.children;
-
-        // external node
-        if (ht == 0) {
-            for (int j = 0; j < x.numChildren; j++) {
-                if (compareTo(key, children[j].key)==0) return (String) children[j].dnaVal;
-            }
-        }
-
-        // internal node
-        else {
-            for (int j = 0; j < x.numChildren; j++) {
-                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
-                    return search(children[j].next, key, ht-1);
-            }
-        }
-        return null;
-    }
-
     private String geneSearch(BTreeNode x, Long key, int ht) {
         TreeObject[] children = x.children;
         // external node
-        if (ht == 0) {
-            for (int j = 0; j < x.numChildren; j++) {
-                if (compareTo(key, children[j].key)==0) return ((String) children[j].dnaVal+": "+children[j].frequency+" k="+children[j].key);
-            }
-        }
+
+
+         if (ht == 0) {
+             for (int j = 0; j < x.numChildren; j++) {
+                 if (compareTo(key, children[j].key) == 0)
+                     return ((String) children[j].dnaVal + ": " + children[j].frequency);
+             }
+         }
 
         // internal node
-        else {
+        else{
             for (int j = 0; j < x.numChildren; j++) {
-                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
-                    return geneSearch(children[j].next, key, ht-1);
+                if (j + 1 == x.numChildren || compareTo(key, children[j + 1].key) < 0)
+                    return geneSearch(children[j].next, key, ht - 1);
             }
         }
         return null;
     }
-
 
 
     /**
@@ -129,17 +114,15 @@ public class BTree implements Serializable{
      * M is preset to 32 which is optimal for the 32 bit longs with a 4096 size array.
      */
     public BTree() {
-      this(32);
+        this(32);
     }
 
-    public int searchIncrementFrequency(BTreeNode x, long key, int ht)
-    {
+    public int searchIncrementFrequency(BTreeNode x, long key, int ht) {
         TreeObject[] children = x.children;
         // external node
         if (ht == 0) {
             for (int j = 0; j < x.numChildren; j++) {
-                if (compareTo(key, children[j].key)==0)
-                {
+                if (compareTo(key, children[j].key) == 0) {
                     children[j].incrementFrequency();
                     return (children[j].frequency);
                 }
@@ -149,10 +132,9 @@ public class BTree implements Serializable{
         // internal node
         else {
             for (int j = 0; j < x.numChildren; j++) {
-                if (j+1 == x.numChildren || compareTo(key, children[j+1].key)<1)
-                {
+                if (j + 1 == x.numChildren || compareTo(key, children[j + 1].key) < 0) {
 
-                    return searchIncrementFrequency(children[j].next, key, ht-1);
+                    return searchIncrementFrequency(children[j].next, key, ht - 1);
                 }
 
             }
@@ -163,16 +145,15 @@ public class BTree implements Serializable{
 
 
     /**
-     * Creates a B-Tree with a specified order
-     * @Limitation The Order must be even and greater than or equal to 4.
+     * Creates a B-Tree with a specified order.
      * @param mVal The order specified.
+     * @Limitation The Order must be even and greater than or equal to 4.
      */
-    public BTree(int mVal){
-        if (mVal == 0){
+    public BTree(int mVal) {
+        if (mVal == 0) {
             M = 32;
-        }
-         else if (mVal < 4 && mVal%2!=0
-        ){
+        } else if (mVal < 4 && mVal % 2 != 0
+        ) {
             throw new IllegalArgumentException("The order must be Even or greater than 4");
         }
         M = mVal;
@@ -181,6 +162,7 @@ public class BTree implements Serializable{
 
     /**
      * Returns true if this symbol table is empty.
+     *
      * @return true if this symbol table is empty; false otherwise
      */
     public boolean isEmpty() {
@@ -189,6 +171,7 @@ public class BTree implements Serializable{
 
     /**
      * Returns the number of key-value pairs in this symbol table.
+     *
      * @return the number of key-value pairs in this symbol table
      */
     public int size() {
@@ -197,21 +180,28 @@ public class BTree implements Serializable{
 
     /**
      * Returns the height of this B-tree.
+     *
      * @return the height of this B-tree
      */
     public int getHeight() {
         return height;
     }
 
-    public BTreeNode getRoot() { return root;}
+    /**
+     * returns the root of the B-Tree.
+     * @return the root of the B-Tree.
+     */
+    public BTreeNode getRoot() {
+        return root;
+    }
 
     /**
      * Inserts the key-dnaVal pair into the symbol table, overwriting the old value
      * with the new value if the key is already in the symbol table.
      * If the value is {@code null}, this effectively deletes the key from the symbol table.
      *
-     * @param  key the key
-     * @param  dnaVal the value
+     * @param key    the key
+     * @param dnaVal the value
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public void put(Long key, String dnaVal) {
@@ -230,10 +220,11 @@ public class BTree implements Serializable{
 
     /**
      * A private class that helps manage put, by allowing self recursion and managing when splits happen.
-     * @param h the BTreeNode that is input for insertion.
-     * @param key the key to be inserted
+     *
+     * @param h      the BTreeNode that is input for insertion.
+     * @param key    the key to be inserted
      * @param dnaVal the String to be paired with the key input
-     * @param ht the current height of the BTree.
+     * @param ht     the current height of the BTree.
      * @return Null if there is no need to return a split node set.
      * @return A split node if one node becomes overfilled.
      */
@@ -244,17 +235,19 @@ public class BTree implements Serializable{
         // external node
         if (ht == 0) {
             for (j = 0; j < h.numChildren; j++) {
-                if(compareTo(key,h.children[j].key)==0){h.children[j].frequency++;
-                return null; }
-                if (compareTo(key, h.children[j].key)<0) break;
+                if (compareTo(key, h.children[j].key) == 0) {
+                    h.children[j].frequency++;
+                    return null;
+                }
+                if (compareTo(key, h.children[j].key) < 0) break;
             }
         }
 
         // internal node
         else {
             for (j = 0; j < h.numChildren; j++) {
-                if ((j+1 == h.numChildren) || compareTo(key, h.children[j+1].key)<0) {
-                    BTreeNode u = insert(h.children[j++].next, key, dnaVal, ht-1);
+                if ((j + 1 == h.numChildren) || compareTo(key, h.children[j + 1].key) < 0) {
+                    BTreeNode u = insert(h.children[j++].next, key, dnaVal, ht - 1);
                     if (u == null) return null;
                     t.key = u.children[0].key;
                     t.dnaVal = null;
@@ -265,29 +258,31 @@ public class BTree implements Serializable{
         }
 
         for (int i = h.numChildren; i > j; i--)
-            h.children[i] = h.children[i-1];
+            h.children[i] = h.children[i - 1];
         h.children[j] = t;
         h.numChildren++;
         if (h.numChildren < M) return null;
-        else         return split(h);
+        else return split(h);
     }
 
 
     /**
      * Splits a node in half
+     *
      * @param h The node to be split
      * @return a node with the splits implemented.
      */
     private BTreeNode split(BTreeNode h) {
-        BTreeNode t = new BTreeNode(M/2);
-        h.numChildren = M/2;
-        for (int j = 0; j < M/2; j++)
-            t.children[j] = h.children[M/2+j];
+        BTreeNode t = new BTreeNode(M / 2);
+        h.numChildren = M / 2;
+        for (int j = 0; j < M / 2; j++)
+            t.children[j] = h.children[M / 2 + j];
         return t;
     }
 
     /**
      * Returns a string representation of this B-tree.
+     *
      * @return a string representation of this B-tree.
      */
     public String toString() {
@@ -296,7 +291,8 @@ public class BTree implements Serializable{
 
     /**
      * A internal private class that uses a StringBuilder to append the children of nodes, account for repeats, and display it all
-     * @param h the node to be transcribed (It is generally root).
+     *
+     * @param h  the node to be transcribed (It is generally root).
      * @param ht the height of the B-tree. (generally the height)
      * @return A value mimicing this: Value: frewuency.
      */
@@ -306,12 +302,11 @@ public class BTree implements Serializable{
 
         if (ht == 0) {
             for (int j = 0; j < h.numChildren; j++) {
-                s.append(children[j].dnaVal + ": " + children[j].frequency + " k="+children[j].key+ "\n");
+                s.append(children[j].dnaVal + ": " + children[j].frequency + "\n");
             }
-        }
-        else {
+        } else {
             for (int j = 0; j < h.numChildren; j++) {
-                s.append(toString(children[j].next, ht-1));
+                s.append(toString(children[j].next, ht - 1));
             }
         }
         return s.toString();
@@ -319,13 +314,13 @@ public class BTree implements Serializable{
 
     /**
      * an implemented compareTo to ensure that comparisons for insertion work as intended.
+     *
      * @param k1 the key to be compared
      * @param k2 the key comparing against k1.
      * @return 3 potential integers. -1 if k1 is less than k2, 0 if they are equal, and 1 if k1 is greater than k2.
      */
-    public int compareTo(Comparable k1, Comparable k2)
-    {
+    public int compareTo(Comparable k1, Comparable k2) {
         return k1.compareTo(k2);
     }
-
 }
+
